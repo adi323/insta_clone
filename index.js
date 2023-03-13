@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 //mongoose initialise
 mongoose.set('strictQuery', false);
 var conn=mongoose.connect(
-  `mongodb+srv://${process.env.USERID}:${process.env.PASSWORD}@${process.env.DATABASE}/?retryWrites=true&w=majority`,
+  `mongodb+srv://${process.env.USERID}:${process.env.PASSWORD}@${process.env.DATABASE_MONGODB}/?retryWrites=true&w=majority`,
     {
         useNewUrlParser:true,
         useUnifiedTopology:true

@@ -5,7 +5,7 @@ const s3 = new AWS.S3()
 exports.createPost=async (req,res) => {
     await s3.putObject({
       Body: JSON.stringify(req.file),
-      Bucket: 'cyclic-good-plum-snapper-kit-eu-west-1',
+      Bucket: process.env.AWS_BUCKET,
       Key: req.file.filename,
     }).promise().then((results,err)=>{
         if(results){
@@ -30,7 +30,7 @@ exports.createPost=async (req,res) => {
 exports.getFile=async (req,res) => {
     try {
         let s3File = await s3.getObject({
-        Bucket: 'cyclic-good-plum-snapper-kit-eu-west-1',
+        Bucket: process.env.AWS_BUCKET,
           Key: req.query.filename,
         }).promise()
     
