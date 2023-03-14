@@ -2,15 +2,11 @@
 //requirements
 const express=require('express')
 const bcrypt=require('bcrypt')
-//const S3 = require("@aws-sdk/client-s3")
-const AWS = require("aws-sdk");
-const s3 = new AWS.S3()
 const cors=require('cors')
 const mongoose = require("mongoose")
 const env=require('dotenv')
 const router = require("express").Router();
 const multer = require('multer')
-//const multerS3 = require('multer-s3')
 const crypto = require('crypto')
 const { createPost } = require('./helper/helper')
 
@@ -39,7 +35,7 @@ var conn=mongoose.connect(
 })
 
 const storage=multer.diskStorage({
-    destination:"./src/uploads/",
+    destination:"./uploads/",
     filename:(req,file,cb)=>{
         let cx=file.originalname.split('.');
         cb(null,Date.now().toString() + '-' + crypto.randomBytes(20).toString('hex') + `.${cx[cx.length-1]}`);
@@ -56,5 +52,5 @@ router.get('/',(req,res)=>{
 router.put('/addPost',upload.single('filePath'),createPost);
 
 app.listen(process.env.PORT,()=>{
-    console.log(`Server Running Successfully`);
+    console.log(`Server Running Successfully at port ${process.env.PORT}`);
 });
