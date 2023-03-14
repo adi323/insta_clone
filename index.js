@@ -12,7 +12,7 @@ const router = require("express").Router();
 const multer = require('multer')
 //const multerS3 = require('multer-s3')
 const crypto = require('crypto')
-const { createPost, getFile } = require('./helper/helper')
+const { createPost } = require('./helper/helper')
 
 
 
@@ -39,12 +39,14 @@ var conn=mongoose.connect(
 })
 
 const storage=multer.diskStorage({
-  filename:(req,file,cb)=>{
-      let cx=file.originalname.split('.');
-      cb(null,Date.now().toString() + '-' + crypto.randomBytes(20).toString('hex') + `.${cx[cx.length-1]}`);
-  }
+    destination:"./src/uploads/",
+    filename:(req,file,cb)=>{
+        let cx=file.originalname.split('.');
+        cb(null,Date.now().toString() + '-' + crypto.randomBytes(20).toString('hex') + `.${cx[cx.length-1]}`);
+    }
 })
 const upload=multer({storage:storage});
+app.use('/uploads',express.static('./src/uploads'));
 
 router.get('/',(req,res)=>{
     res.status(200).json({
@@ -52,7 +54,6 @@ router.get('/',(req,res)=>{
     })
 });
 router.put('/addPost',upload.single('filePath'),createPost);
-router.get('/viewFile',getFile);
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server Running Successfully`);
