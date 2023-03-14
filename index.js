@@ -1,7 +1,6 @@
 
 //requirements
 const express=require('express')
-const bcrypt=require('bcrypt')
 const cors=require('cors')
 const mongoose = require("mongoose")
 const env=require('dotenv')
